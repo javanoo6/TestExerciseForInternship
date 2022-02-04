@@ -1,5 +1,7 @@
 package ru.app.core;
 
+import ru.app.core.impl.TablePoint;
+
 public interface Player {
-    public TablePoint hit();
+    TablePoint hit();
 }
