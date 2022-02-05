@@ -1,6 +1,6 @@
 package ru.app;
 
-import ru.app.core.impl.GameRefereeImpl;
+import ru.app.core.impl.GameImpl;
 import ru.app.core.impl.PingPongTableImpl;
 import ru.app.core.impl.PlayerImpl;
 
@@ -8,7 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
         var pingPongTable = new PingPongTableImpl();
-        var gameReferee = new GameRefereeImpl();
+        var game = new GameImpl();
 
         var playerOne = new PlayerImpl(
                 pingPongTable.getPlayerOneTablePoints(),
@@ -19,6 +19,6 @@ public class Main {
                 pingPongTable.getPlayerTwoTablePointsForShouting()
         );
 
-        gameReferee.judgeGame(pingPongTable, playerOne, playerTwo);
+        game.run(pingPongTable, playerOne, playerTwo);
     }
 }
