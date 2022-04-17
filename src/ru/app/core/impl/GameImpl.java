@@ -5,15 +5,63 @@ import ru.app.core.Player;
 
 public class GameImpl implements Game {
     private static int MAXIMUM_GAME_POINT = 11;
+    public int firstPlayerScore = 0;
+    public int secondPlayerScore = 0;
+    boolean isGameOver = false;
 
     @Override
     public void run(PingPongTableImpl pingPongTable, Player playerOne, Player playerTwo) {
-        //TODO напиши здесь реализацию игры в пинг-понг двух игроков, используя их имплементации
-        // алгоритм реализации:
-        // При каждом ударе игрока производится проверка, попал ли игрок по столу соперника или нет.
-        // Факт удара фиксируется в console (попал или не попал и по какой точке был совершен удар).
-        // В случае, если игрок не попадает по столу соперника, очко присуждается его оппонента (общий счет выводится в консоль).
-        // Очко разыгрывается до тех пор, пока один из игроков не промахнется по столу соперника.
-        // Очки суммируются и тот, кто наберет первым 11 очков, будет победителем.
+        System.out.println("PING-PONG GAME");
+
+        while (!isGameOver) {
+            playerOneMove(playerOne,pingPongTable);
+            if(!isGameOver)
+            playerTwoMove(playerTwo,pingPongTable);
+        }
+        getWinner();
+
+    }
+
+    private void checkIfGameOver() {
+        if(firstPlayerScore==MAXIMUM_GAME_POINT) isGameOver=true;
+        if(secondPlayerScore==MAXIMUM_GAME_POINT) isGameOver=true;
+    }
+
+    private void getWinner() {
+        if (firstPlayerScore > secondPlayerScore) {
+            System.out.println("\nplayerOne is the Winner");
+        } else System.out.println("\nplayerTwo is the Winner");
+    }
+
+    private void playerTwoMove(Player playerTwo, PingPongTableImpl pingPongTable) {
+        System.out.println("\nplayerTwo's turn");
+        TablePoint secondPlayerTableHitPoint = playerTwo.hit();
+        if (pingPongTable.getPlayerOneTablePoints().contains(secondPlayerTableHitPoint)) {
+            System.out.println("playerTwo hits opponent's table-> game continues");
+        } else {
+            System.out.println("playerTwo missed the table, playerOne gets plus point");
+            firstPlayerScore++;
+            getPlayersScore();
+            checkIfGameOver();
+        }
+
+    }
+
+    private void getPlayersScore() {
+        System.out.println("\nCurrent Score Is:"+"\n" + "playerOne Score: " + firstPlayerScore + "\n" + "playerTwo Score " + secondPlayerScore);
+    }
+
+    private void playerOneMove(Player playerOne, PingPongTableImpl pingPongTable) {
+        System.out.println("\nplayerOne's turn");
+        TablePoint firstPlayerTableHitPoint = playerOne.hit();
+        if (pingPongTable.getPlayerTwoTablePoints().contains(firstPlayerTableHitPoint)) {
+            System.out.println("playerOne hits opponent's table-> game continues");
+        } else {
+            System.out.println("playerOne missed the table, playerTwo gets plus point");
+            secondPlayerScore++;
+            getPlayersScore();
+            checkIfGameOver();
+        }
+
     }
 }
